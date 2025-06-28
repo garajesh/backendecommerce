@@ -16,8 +16,9 @@ public class HomeProductController {
     @Autowired
     private ProductRepository productRepository;
 
-    @PostMapping("/featured-products")
-    public List<Product> getFeaturedProducts(@RequestBody HomeProductRequest request) {
-        return productRepository.findByFeaturedAndCategory(request.isFeatured(), request.getCategory());
+    @GetMapping("/featured-products")
+    public List<Product> getFeaturedProducts() {
+        return productRepository.findTop6ByFeaturedTrueOrderByCreatedAtDesc();
     }
+
 }
