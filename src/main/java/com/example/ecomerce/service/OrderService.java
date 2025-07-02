@@ -7,10 +7,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class OrderService {
+
     @Autowired
     private OrderRepository orderRepository;
 
     public Order saveOrder(Order order) {
         return orderRepository.save(order);
+    }
+
+    public void deleteOrderById(Long id) {
+        orderRepository.deleteById(id);
     }
 }
