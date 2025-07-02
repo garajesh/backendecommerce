@@ -1,9 +1,10 @@
 package com.example.ecomerce.controller;
 
-import com.example.ecomerce.request.AdminOrderRequest;
-import com.example.ecomerce.request.SalesReportResponse;
 import com.example.ecomerce.model.Order;
 import com.example.ecomerce.repository.OrderRepository;
+import com.example.ecomerce.request.AdminOrderRequest;
+import com.example.ecomerce.request.SalesReportResponse;
+import com.example.ecomerce.service.OrderService;
 import com.example.ecomerce.service.SalesReportService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,12 @@ public class AdminOrderController {
     private OrderRepository orderRepository;
 
     @Autowired
+    private OrderService orderService;
+
+    @Autowired
     private SalesReportService salesReportService;
 
+    // Get all orders
     @GetMapping("/all")
     public List<AdminOrderRequest> getAllOrders() {
         List<Order> orders = orderRepository.findAll();
@@ -37,6 +42,14 @@ public class AdminOrderController {
         )).collect(Collectors.toList());
     }
 
+    // Delete order by ID
+    @DeleteMapping("/{id}")
+    public String deleteOrder(@PathVariable Long id) {
+        orderService.deleteOrderById(id);
+        return "Order deleted successfully";
+    }
+
+    // Sales Report
     @GetMapping("/sales-report")
     public SalesReportResponse getSalesReport() {
         return salesReportService.generateReport();
